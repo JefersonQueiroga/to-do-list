@@ -1,8 +1,8 @@
-import { StyleSheet, View } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
-
-type Props = {
+interface taskProps {
   onCheck?: () => void;
   onRemove?: () => void;
   title: string;
@@ -10,41 +10,52 @@ type Props = {
 }
 
 
-export default function Task() {
+export default function Task(props: taskProps)  {
     return (
-        <View>
-            {/* Task component content goes here */}
-        </View>
-    );
+      <View style={styles.container}>
+        <TouchableOpacity style={[styles.TaskDone, !props.status && {backgroundColor: '#0E9577'} ]} 
+          onPress={props.onCheck}>
+          {props.status &&  <Feather name="check-square" size={24} color="white" /> }
+          {!props.status && <Feather name="square" size={24} color="white" /> }
+        </TouchableOpacity>
+        <Text style={styles.taskText}>{props.title}</Text>
+        <TouchableOpacity style={styles.TaskDelete} onPress={props.onRemove}>
+          <Feather name="trash-2" size={24} color="white" />
+        </TouchableOpacity>
+    </View>
+    )
 }
 
 
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-    backgroundColor: '#262626',
-    borderRadius: 8,
+    height: 56,
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    alignContent: 'center',
-    marginBottom: 16,
-    padding: 12,
-    gap: 8,
+    alignItems: 'center',
+    backgroundColor: '#304163',
+    borderRadius: 4,
+    overflow: 'hidden',
   },
-  item: {
-    color: '#FFFFFF',
+  
+  TaskDone: {
+    height: 56,
+    width: 56,
+    backgroundColor: '#e88a1a',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  TaskDelete:{
+    width: 56,
+    height: 56,
+    backgroundColor: '#f22424',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  taskText: {
+    color: '#ffffff',
     fontSize: 16,
-    flex: 1
-  },
-  itemInvalid: {
-    textDecorationLine: 'line-through',
-    color: '#808080',
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 24,
-  },
-  buttonCheck:{},
-  buttonDelete:{}
+    fontWeight: '500',
+  }
 });
